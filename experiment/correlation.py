@@ -2,7 +2,7 @@ import pandas as pd
 import scipy.stats
 import matplotlib.pyplot as plt
 
-class Experiment():
+class Correlation():
     def __init__(self, csv_file:str, encoding:str, alpha:float):
         self.__csv = pd.read_csv(csv_file, encoding=encoding, sep=";")
 
