@@ -39,7 +39,16 @@ def run_regression_model() -> None:
     # Для выбранного района города построить регрессионные модели
     # зависимости стоимости квартиры от ее площади. Выбрать тип модели на
     # основе визуального представления. Результат сравнить с теоретической моделью.
-    regression = Regression()
+    regression = Regression(csv_file, encoding)
+
+    # Ищем простую линейную регрессию 
+    simple = regression.calculate_simple_regression()
+    # Ищем множественную линейную регрессию
+    multiplie = regression.calculate_multiplie_regression()
+    # Ищем полиномиальную регрессию
+    polynomail = regression.calculate_polynomail_regression()
+    # Строим графики и сравниваем результаты
+    regression.explain_regressions(simple, multiplie, polynomail)
 
 
 if __name__ == "__main__":
@@ -47,6 +56,8 @@ if __name__ == "__main__":
     encoding = "cp1251"
     alpha = 0.05
 
-    #run_correlations()
-    #run_anova()
+    run_correlations()
+    print()
+    run_anova()
+    print()
     run_regression_model()
