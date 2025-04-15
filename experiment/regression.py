@@ -12,8 +12,9 @@ class Regression():
         self.__meters = self.__csv["Meters"].str.split("/").str[0].astype(float)
 
         # берем семплы сразу, чтобы во всех расчетах были одинаковые данные
-        self.__price_sample = self.__price.sample(1000)
-        self.__meters_sample = self.__meters.sample(1000)
+        # это легаси, считаем на полных данных иначе рассчеты окажутся неверными
+        self.__price_sample = self.__price
+        self.__meters_sample = self.__meters
 
 
     def calculate_simple_regression(self) -> dict:
@@ -44,7 +45,7 @@ class Regression():
         # для графика возьмем нормальный x
         x = self.__price_sample.to_numpy().reshape((-1,2))
         # Так как мы поделили x/2, то y тоже нужно взять выборку в 2 раза меньше
-        y = self.__meters_sample[:500].to_numpy()
+        y = self.__meters_sample[:900].to_numpy()
 
         model = LinearRegression().fit(x, y)
 
@@ -57,7 +58,7 @@ class Regression():
         result['r_sq'] = model.score(x, y)
         result['intercept'] = model.intercept_
         result['slope'] = model.coef_
-        result['data'] = x_once[:500]
+        result['data'] = x_once[:900]
         result['predict'] = y_pred
 
         return result

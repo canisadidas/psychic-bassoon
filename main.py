@@ -16,7 +16,7 @@ def run_correlations() -> None:
     correlations_city = correlation.calculate_city_corellations()
     correlation.explain_city_corellations(correlations_city)
 
-    # Отрисовать графики корреляций по Пирсону для города
+    # Отрисовать графикfи корреляций по Пирсону для города
     correlation.draw_city_correlations()
 
     # Рассчет корреляций и пояснение полученных результатов для районов
