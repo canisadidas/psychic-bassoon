@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import scipy.stats
 import matplotlib.pyplot as plt
 
@@ -59,11 +60,16 @@ class Correlation():
 
         counter = 0
         for science in science_data:
+            # гистрограмма для оценки количества элементов с признаками (этаж, метраж, комнаты)
+            #hist, bin_edges = np.histogram(science['Metric'], bins=10)
+            #ax[counter].hist(science['Metric'], bin_edges)
+            # график распределения
             ax[counter].plot(self.__price, science["Metric"], linewidth=0, marker='o', markersize=4, label='Data points')
             ax[counter].plot(self.__price, science["Intercept"] + science["Slope"] * self.__price, label=science["Line"])
+            ax[counter].legend(facecolor='white')
+            # общие параметры для обоих типов графиков
             ax[counter].set_xlabel('x')
             ax[counter].set_ylabel('y')
-            ax[counter].legend(facecolor='white')
             counter += 1
 
         plt.show()
