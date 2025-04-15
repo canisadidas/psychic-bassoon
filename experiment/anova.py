@@ -17,12 +17,12 @@ class Anova():
         self.__floor = self.__sample["Floor"].str.split("/").str[0].astype(int)
 
     
-    def calculate_one_way(self) -> list:
+    def calculate_one_way(self) -> None:
         result = scipy.stats.f_oneway(self.__price, self.__meters)
         print(result)
     
 
-    def calculate_two_way(self) -> list:
+    def calculate_two_way(self) -> None:
         # Упорядочиваем данные, чтобы избежать большого разнообразия (без этого модель не построить, нужно больше условностей)
         cut_meters = pd.cut(self.__meters, bins=[12, 35, 100, 501], labels=["small", "medium", "large"])
         cut_floor = pd.cut(self.__floor, bins=[0, 3, 9, 26], labels=["low", "medium", "high"])
@@ -31,5 +31,5 @@ class Anova():
         # попадаются неуникальные значения и число комбинаций падает, если так произошло, то просто перезапустить прогон
         df = pd.DataFrame({"meters": cut_meters, "floor": cut_floor, "price": self.__price})
         model = ols("price ~ C(meters) + C(floor) + C(meters):C(floor)", data=df).fit()
-        print(sm.stats.anova_lm(model, typ=2).iloc[:, [0, 2, 3]].values)
+        print(sm.stats.anova_lm(model, typ=2))
 
