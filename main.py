@@ -49,6 +49,8 @@ def run_regression_model() -> None:
     polynomail = regression.calculate_polynomail_regression()
     # Строим графики и сравниваем результаты
     regression.explain_regressions(simple, multiplie, polynomail)
+    # Проверим адекватность моделей
+    regression.explain_models(simple, multiplie, polynomail)
 
 
 if __name__ == "__main__":

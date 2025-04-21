@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.preprocessing import PolynomialFeatures
 
 class Regression():
@@ -10,6 +11,7 @@ class Regression():
         # Ищем зависимость стоимости от площади
         self.__price = self.__csv["Price"].astype(int)
         self.__meters = self.__csv["Meters"].str.split("/").str[0].astype(float)
+        print(self.__meters.max())
 
         # берем семплы сразу, чтобы во всех расчетах были одинаковые данные
         # это легаси, считаем на полных данных иначе рассчеты окажутся неверными
@@ -34,6 +36,7 @@ class Regression():
         result['intercept'] = model.intercept_
         result['slope'] = model.coef_
         result['data'] = x_new
+        result['original'] = y
         result['predict'] = y_pred
 
         return result
@@ -59,6 +62,7 @@ class Regression():
         result['intercept'] = model.intercept_
         result['slope'] = model.coef_
         result['data'] = x_once[:900]
+        result['original'] = y
         result['predict'] = y_pred
 
         return result
@@ -84,6 +88,7 @@ class Regression():
         result['intercept'] = model.intercept_
         result['slope'] = model.coef_
         result['data'] = x_new
+        result['original'] = y
         result['predict'] = y_pred
 
         return result
@@ -109,6 +114,15 @@ class Regression():
             ax[counter].set_xlabel('price')
             ax[counter].set_ylabel('meters')
             ax[counter].legend(facecolor='white')
+            ax[counter].set_title(science['method'])
             counter += 1
 
         plt.show()
+
+
+    def explain_models(self, simple:dict, multiplie:dict, polynomail:dict):
+        for dict in [simple, multiplie, polynomail]:
+            mse = mean_squared_error(dict['original'], dict['predict'])
+            mae = mean_absolute_error(dict['original'], dict['predict'])
+            print(f"{dict['method']} MSE: {mse}")
+            print(f"{dict['method']} MAE: {mae}")
